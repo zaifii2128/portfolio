@@ -1,0 +1,80 @@
+class Queue:
+    def __init__(self, capacity):
+        self.queue = [None] * capacity
+        self.capacity = capacity
+        self.front = 0
+        self.rear = -1
+        self.size = 0
+
+    def is_empty(self):
+        return self.size == 0
+
+    def is_full(self):
+        return self.size == self.capacity
+
+    def enqueue(self, item):
+        if self.is_full():
+            print("Queue is full. Cannot enqueue.")
+            return
+        self.rear = (self.rear + 1) % self.capacity
+        self.queue[self.rear] = item
+        self.size += 1
+        print(f"{item} enqueued.")
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Queue is empty. Cannot dequeue.")
+            return
+        removed_item = self.queue[self.front]
+        self.queue[self.front] = None  # Optional: clear the slot
+        self.front = (self.front + 1) % self.capacity
+        self.size -= 1
+        print(f"{removed_item} dequeued.")
+
+    def display(self):
+        if self.is_empty():
+            print("Queue is empty.")
+            return
+        print("Queue elements:")
+        idx = self.front
+        for _ in range(self.size):
+            print(self.queue[idx], end=" ")
+            idx = (idx + 1) % self.capacity
+        print()
+
+
+def main():
+    capacity = int(input("Enter the capacity of the queue: "))
+    q = Queue(capacity)
+
+    while True:
+        print("\nMenu:")
+        print("1. Enqueue")
+        print("2. Dequeue")
+        print("3. Check if Empty")
+        print("4. Check if Full")
+        print("5. Display Queue")
+        print("6. Exit")
+
+        choice = input("Enter your choice (1-6): ")
+
+        if choice == '1':
+            item = input("Enter item to enqueue: ")
+            q.enqueue(item)
+        elif choice == '2':
+            q.dequeue()
+        elif choice == '3':
+            print("Queue is empty." if q.is_empty() else "Queue is not empty.")
+        elif choice == '4':
+            print("Queue is full." if q.is_full() else "Queue is not full.")
+        elif choice == '5':
+            q.display()
+        elif choice == '6':
+            print("Exiting program.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()

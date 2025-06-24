@@ -1,0 +1,43 @@
+
+class ATM:
+    def __init__(self, pin, balance):
+        self.pin = pin
+        self.balance = balance
+    
+    def validate_pin(self, entered_pin):
+        return entered_pin == self.pin
+    
+    def check_balance(self):
+        print(f"Your current balance is: {self.balance}")
+    
+    def withdraw_money(self, amount):
+        if amount > self.balance:
+            print("Insufficient funds!")
+        elif amount % 500 != 0:
+            print("Withdrawal amount must be in multiples of 500!")
+        else:
+            self.balance -= amount
+            print(f"Transaction successful! Remaining balance: {self.balance}")
+    
+    def menu(self):
+        while True:
+            print("\n1. Check Balance\n2. Withdraw Money\n3. Exit")
+            choice = input("Enter your choice: ")
+            if choice == "1":
+                self.check_balance()
+            elif choice == "2":
+                amount = int(input("Enter withdrawal amount: "))
+                self.withdraw_money(amount)
+            elif choice == "3":
+                print("Exiting... Thank you for using the ATM!")
+                break
+            else:
+                print("Invalid choice! Please try again.")
+
+atm = ATM(pin=1234, balance=10000)
+entered_pin = int(input("Enter PIN: "))
+
+if atm.validate_pin(entered_pin):
+    atm.menu()
+else:
+    print("Incorrect PIN! Access denied.")
